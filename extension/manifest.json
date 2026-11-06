@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "DeepSeek Chat Exporter",
+  "short_name": "DS Exporter",
+  "version": "1.0.0",
+  "description": "Export a DeepSeek chat as a clean Markdown summary or full transcript, with a native Save As dialog.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "offscreen",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://chat.deepseek.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Export DeepSeek chat to Markdown",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chat.deepseek.com/*"
+      ],
+      "js": [
+        "lib/shared.js",
+        "lib/markdown.js",
+        "lib/summarize.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+D",
+        "mac": "Alt+Shift+D"
+      },
+      "description": "Open DeepSeek Chat Exporter"
+    }
+  }
+}

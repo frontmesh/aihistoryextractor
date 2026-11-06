@@ -1,0 +1,115 @@
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "biz_code": 0,
+    "biz_msg": "",
+    "biz_data": {
+      "chat_session": {
+        "id": "test-chat",
+        "title": "Fix a flaky Playwright test",
+        "model_type": "deepseek_reasoner",
+        "inserted_at": 1775290400,
+        "updated_at": 1775290500,
+        "current_message_id": "a2"
+      },
+      "chat_messages": [
+        {
+          "message_id": "u1",
+          "parent_id": null,
+          "role": "USER",
+          "status": "FINISHED",
+          "inserted_at": 1775290400,
+          "fragments": [
+            {
+              "type": "REQUEST",
+              "content": "My Playwright test fails intermittently in CI with a timeout waiting for the checkout button. How can I make it reliable?"
+            }
+          ]
+        },
+        {
+          "message_id": "a-old",
+          "parent_id": "u1",
+          "role": "ASSISTANT",
+          "status": "FINISHED",
+          "inserted_at": 1775290410,
+          "fragments": [
+            {
+              "type": "RESPONSE",
+              "content": "This regenerated branch is not selected and must not appear in the export."
+            }
+          ]
+        },
+        {
+          "message_id": "a1",
+          "parent_id": "u1",
+          "role": "ASSISTANT",
+          "model": "deepseek-reasoner",
+          "status": "FINISHED",
+          "inserted_at": 1775290420,
+          "fragments": [
+            {
+              "type": "THINK",
+              "content": "I should check whether the cart response is the real readiness signal.",
+              "elapsed_secs": 12
+            },
+            {
+              "type": "RESPONSE",
+              "content": "The timeout usually means the page is not finished hydrating when the click happens. Wait for a user-visible signal rather than an arbitrary delay.\n\nWait for the cart API response before clicking:\n\n```ts\nawait page.waitForResponse(r => r.url().includes('/api/cart') && r.ok());\nawait page.getByRole('button', { name: 'Checkout' }).click();\n```\n\nMake sure the button is enabled and stable. Use `expect(locator).toBeEnabled()` before clicking. Avoid `waitForTimeout` because it hides the real race."
+            },
+            {
+              "type": "TOOL_SEARCH",
+              "results": [
+                {
+                  "cite_index": 0,
+                  "title": "Playwright docs: auto-waiting",
+                  "url": "https://playwright.dev/docs/actionability",
+                  "site_name": "Playwright"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "message_id": "u2",
+          "parent_id": "a1",
+          "role": "USER",
+          "status": "FINISHED",
+          "inserted_at": 1775290430,
+          "files": [
+            {
+              "file_name": "flaky-trace.zip",
+              "signed_path": "/files/flaky-trace.zip",
+              "mime_type": "application/zip"
+            }
+          ],
+          "fragments": [
+            {
+              "type": "REQUEST",
+              "content": "Should I use test retries instead of fixing the flake?"
+            }
+          ]
+        },
+        {
+          "message_id": "a2",
+          "parent_id": "u2",
+          "role": "ASSISTANT",
+          "model": "deepseek-reasoner",
+          "status": "FINISHED",
+          "inserted_at": 1775290500,
+          "fragments": [
+            {
+              "type": "THINK",
+              "content": "Retries hide the signal, so explain that they are diagnostic only.",
+              "elapsed_secs": 8
+            },
+            {
+              "type": "RESPONSE",
+              "content": "Retries are a diagnostic tool, not a fix. They reduce noise while you investigate, but a test that fails 10% of the time will still fail in CI.\n\nUse retries temporarily with `trace: 'on-first-retry'`, then fix the synchronization issue. Check the trace timeline for the first failure and compare it with a passing run.\n\nSee the [Playwright retries guide](https://playwright.dev/docs/test-retries) for more details."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

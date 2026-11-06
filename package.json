@@ -1,0 +1,17 @@
+{
+  "name": "deepseek-chat-exporter",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Brave/Chrome extension that exports DeepSeek chats as Markdown summaries with a native Save As dialog.",
+  "scripts": {
+    "test": "node --test tests/shared.test.js tests/summary.test.js",
+    "test:e2e": "node tests/e2e.mjs",
+    "package": "bash scripts/package.sh"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.55.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

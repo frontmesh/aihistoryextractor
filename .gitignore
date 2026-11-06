@@ -1,0 +1,6 @@
+node_modules/
+.npm-cache/
+.DS_Store
+dist/*.zip
+tests/artifacts/*.png
+tests/artifacts/*.md

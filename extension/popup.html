@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DeepSeek Chat Exporter</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">
+            <img src="icons/icon48.png" width="36" height="36" alt="">
+          </div>
+          <div class="brand-copy">
+            <h1>DeepSeek Exporter</h1>
+            <p>Chat to Markdown, saved where you choose.</p>
+          </div>
+          <span class="version">1.0</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="conversation-card" aria-live="polite">
+          <div class="status-row">
+            <span id="statusDot" class="status-dot is-loading" aria-hidden="true"></span>
+            <span id="statusText" class="status-text">Connecting to this tab…</span>
+            <span id="sourceBadge" class="source-badge" hidden></span>
+          </div>
+
+          <div id="conversationSummary" class="conversation-summary" hidden>
+            <div id="conversationTitle" class="conversation-title"></div>
+            <div id="conversationMeta" class="conversation-meta"></div>
+          </div>
+
+          <p id="stateMessage" class="state-message" hidden></p>
+          <div class="state-actions" id="stateActions" hidden>
+            <button id="openChatBtn" class="text-button" type="button">Open DeepSeek ↗</button>
+            <button id="reloadBtn" class="text-button" type="button">Reload tab</button>
+          </div>
+        </section>
+
+        <section id="options" class="options" aria-label="Export options">
+          <div class="section-heading">
+            <span>Summary style</span>
+            <span class="section-hint">Remembered locally</span>
+          </div>
+
+          <div class="depth-grid" role="radiogroup" aria-label="Summary style">
+            <label class="depth-card">
+              <input type="radio" name="depth" value="brief">
+              <span class="depth-name">Brief</span>
+              <span class="depth-desc">A quick overview</span>
+            </label>
+            <label class="depth-card is-selected">
+              <input type="radio" name="depth" value="standard" checked>
+              <span class="depth-name">Standard</span>
+              <span class="depth-desc">Balanced + outline</span>
+            </label>
+            <label class="depth-card">
+              <input type="radio" name="depth" value="detailed">
+              <span class="depth-name">Detailed</span>
+              <span class="depth-desc">More depth</span>
+            </label>
+          </div>
+
+          <label class="switch-row" for="includeTranscript">
+            <span class="switch-copy">
+              <span class="switch-title">Include full transcript</span>
+              <span class="switch-desc">Every message, after the summary</span>
+            </span>
+            <input id="includeTranscript" type="checkbox">
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          </label>
+
+          <label class="switch-row" id="reasoningRow" for="includeReasoning">
+            <span class="switch-copy">
+              <span class="switch-title">Include reasoning</span>
+              <span class="switch-desc">DeepSeek's thinking blocks</span>
+            </span>
+            <input id="includeReasoning" type="checkbox" disabled>
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          </label>
+        </section>
+
+        <button id="exportBtn" class="export-button" type="button" disabled>
+          <span class="button-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v12"></path>
+              <path d="m7 10 5 5 5-5"></path>
+              <path d="M5 21h14"></path>
+            </svg>
+          </span>
+          <span id="exportLabel" class="button-label">Export summary</span>
+          <span id="exportSpinner" class="spinner" hidden aria-hidden="true"></span>
+        </button>
+
+        <p id="errorMessage" class="error-message" role="alert" hidden></p>
+
+        <p class="privacy-note">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          No third-party uploads. A Save As dialog will open.
+        </p>
+      </main>
+
+      <footer class="footer">
+        <span>Works with chat.deepseek.com</span>
+        <span class="footer-dot" aria-hidden="true"></span>
+        <span>Local summary</span>
+      </footer>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
